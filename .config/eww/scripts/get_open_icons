@@ -1,0 +1,91 @@
+#!/usr/bin/bash
+cd ~/.config/eww
+
+getwins() {
+  hyprctlclients=$(hyprctl clients -j \
+    | grep -v '"mapped": ' \
+    | grep -v '"hidden": ' \
+    | grep -v '"floating": ' \
+    | grep -v '"monitor": ' \
+    | grep -v '"pid": ' \
+    | grep -v '"xwayland": ' \
+    | grep -v '"pinned":' \
+    | grep -v '"fullscreen": ' \
+    | grep -v '"fullscreenMode": ' \
+    | grep -v '"fakeFullscreen": ' \
+    | grep -v '"grouped": ')
+
+  IFS=$'\n'
+  clientsarr=( $(echo "$hyprctlclients" | gojq -c -M '.[]') )
+  
+  icons=()
+
+  for client in "${clientsarr[@]}"; do
+    iconpath=''
+    clientclass=$(echo "$client" | gojq -r '.class')
+    if [[ "$clientclass" == "" ]]; then 
+      continue
+    fi
+
+    # Get app icon
+    if [ -f "scripts/cache/$clientclass" ]; then
+        iconpath=$(cat "scripts/cache/$clientclass")
+        if [ ! -f "${iconpath}" ]; then
+            iconpath=$(geticons -t "$(gsettings get org.gnome.desktop.interface icon-theme | sed "s/'//g")" "$clientclass" | head -n 1)
+            echo "${iconpath}" > "scripts/cache/$clientclass"
+        fi
+    else
+        iconpath=$(geticons -t "$(gsettings get org.gnome.desktop.interface icon-theme | sed "s/'//g")" "$clientclass" | head -n 1)
+        echo "${iconpath}" > "scripts/cache/$clientclass"
+    fi
+    if [[ "${iconpath}" == "" ]]; then
+      iconpath=$(geticons -t "$(gsettings get org.gnome.desktop.interface icon-theme | sed "s/'//g")" "$(echo "$clientclass" | tr '[:upper:]' '[:lower:]' | sed 's/\ /-/g')" | head -n 1)
+      if [[ "${iconpath}" != "" ]]; then
+        rm "scripts/cache/$clientclass"
+        echo "${iconpath}" > "scripts/cache/$clientclass"
+      else 
+        newname=$(scripts/iconpatch "$clientclass")
+        iconpath=$(geticons -t "$(gsettings get org.gnome.desktop.interface icon-theme | sed "s/'//g")" "$newname" | head -n 1)
+        if [[ "${iconpath}" != "" ]]; then
+          rm "scripts/cache/$clientclass"
+          echo "${iconpath}" > "scripts/cache/$clientclass"
+        else
+          iconpath=$(geticons -t "$(gsettings get org.gnome.desktop.interface icon-theme | sed "s/'//g")" "application-x-executable" | head -n 1)
+          rm "scripts/cache/$clientclass"
+          echo "${iconpath}" > "scripts/cache/$clientclass"
+        fi
+      fi
+    fi
+    if [[ "${iconpath}" != "" ]]; then
+      icons+=("$iconpath")
+    fi
+  done
+
+  # Remove duplicates while preserving order
+  declare -A seen
+  unique_icons=()
+  for icon in "${icons[@]}"; do
+    if [[ -z "${seen[$icon]}" ]]; then
+      seen["$icon"]=1
+      unique_icons+=("$icon")
+    fi
+  done
+
+  # Output JSON array of icons
+  if [ ${#unique_icons[@]} -eq 0 ]; then
+    echo '[]'
+  else
+    gojq -n -c --argjson icons "$(printf '%q\n' "${unique_icons[@]}" | jq -R . | jq -s .)" '$icons'
+  fi
+}
+
+# Run once
+getwins
+
+if [ "$1" == "--once" ]; then
+  exit 0
+else
+  socat -u UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - | rg --line-buffered "window>>" | while read -r line; do
+    getwins
+  done
+fi

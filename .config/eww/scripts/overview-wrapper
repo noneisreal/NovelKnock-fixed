@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+
+scripts/overview "$1"
+
+if [ "$1" == "--once" ]; then
+  exit 0
+else
+  # # find the Hyprland socket
+  # socket=$(ls -1d $XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock 2>/dev/null | head -n1)
+
+  # if [ -n "$socket" ]; then
+  #   # listen to socket events
+  #   socat -u UNIX-CONNECT:"$socket" - \
+  #     | while read -r line; do
+  #         scripts/overview "$1"
+  #       done
+  # # else
+  #   # fallback to hyprctl dispatchers
+  #   hyprctl dispatchers \
+  #     | while read -r line; do
+  #         scripts/overview "$1"
+  #       done
+  # fi
+  socat -u UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - | while read -r line; do
+    scripts/overview "$1"
+  done
+fi

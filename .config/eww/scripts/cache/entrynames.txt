@@ -1,0 +1,91 @@
+ARandR
+Advanced Network Configuration
+Ark
+Avahi SSH Server Browser
+Avahi VNC Server Browser
+Avahi Zeroconf Browser
+CMake
+Code - OSS
+Discord
+Dolphin
+Electron 27
+Electron 35
+Electron 36
+Electron 37
+Emoji Selector
+EndeavourOS Quickstart Installer
+EndeavourOS apps info
+EndeavourOS log tool
+Fcitx 5
+Fcitx 5 Configuration
+Fcitx 5 Migration Wizard
+Firefox
+Firewall
+FontForge
+Gammastep Indicator
+Gapless
+Google Chrome
+Gwenview
+Hardware Locality lstopo
+Haruna
+Helvum
+Htop
+Icon Browser
+Info Center
+KCalc
+KDE Connect
+KDE Connect Indicator
+KDE Connect SMS
+KDE Connect Settings
+KDE System Settings
+KWrite
+Kate
+Keyboard layout viewer
+Konsole
+Meld
+Menu Editor
+Neovim
+OBS Studio
+Okular
+OpenJDK Java 24 Console
+OpenJDK Java 24 Shell
+Picom
+PulseAudio Volume Control
+Qt Assistant
+Qt D-Bus Viewer
+Qt Linguist
+Qt V4L2 test Utility
+Qt V4L2 video capture utility
+Qt Widgets Designer
+Reflector Simple
+Remote Viewer
+Rofi
+Rofi Theme Selector
+Screenshot Helper
+Software Token
+Software Token (small)
+Spectacle
+Spotify
+System Monitor
+System Settings
+Text Editor
+Upscayl
+VLC media player
+Vim
+Virtual Machine Manager
+WPS 2019
+WPS PDF
+WPS Presentation
+WPS Spreadsheets
+WPS Writer
+Welcome
+YAD settings
+Zen Browser
+btop++
+eos-update
+fish
+kitty
+mpv Media Player
+nitrogen
+xgps
+xgpsspeed

@@ -1,0 +1,95 @@
+#!/usr/bin/bash
+cd ~/.config/eww || exit
+
+OPACITY=0.75
+IMGPATH=$1
+coverurl=$2
+source=$3
+
+DEFAULT_COLOR="#b5c4ff"
+coverpath=$(echo "$IMGPATH" | sed 's/"//g')
+
+# Validate image path
+if [ ! -f "$coverpath" ] || [ -z "$coverpath" ]; then
+    echo "Invalid or missing image path: $coverpath" >&2
+    coverpath=""
+    themejson='{"special":{"background":"'$DEFAULT_COLOR'","foreground":"'$DEFAULT_COLOR'"},"colors":{"color0":"'$DEFAULT_COLOR'","color1":"'$DEFAULT_COLOR'","color2":"'$DEFAULT_COLOR'","color3":"'$DEFAULT_COLOR'","color4":"'$DEFAULT_COLOR'","color5":"'$DEFAULT_COLOR'","color6":"'$DEFAULT_COLOR'","color7":"'$DEFAULT_COLOR'"},"source":"'$source'"}'
+    maincol="$DEFAULT_COLOR"
+else
+    wal -c
+    lightdark=$(cat scripts/workdir/__mode_light_dark.txt 2>/dev/null || echo "")
+    [ -n "$lightdark" ] && [ "$lightdark" != "-l" ] && lightdark=""
+    wal -i "$IMGPATH" -n -t -s -e $lightdark -q || {
+        echo "wal failed to generate colors" >&2
+        themejson='{"special":{"background":"'$DEFAULT_COLOR'","foreground":"'$DEFAULT_COLOR'"},"colors":{"color0":"'$DEFAULT_COLOR'","color1":"'$DEFAULT_COLOR'","color2":"'$DEFAULT_COLOR'","color3":"'$DEFAULT_COLOR'","color4":"'$DEFAULT_COLOR'","color5":"'$DEFAULT_COLOR'","color6":"'$DEFAULT_COLOR'","color7":"'$DEFAULT_COLOR'"},"source":"'$source'"}'
+        maincol="$DEFAULT_COLOR"
+    }
+    themejson=$(cat ~/.cache/wal/colors.json | gojq -c -M)
+    themejson="${themejson::-1},\"source\":\"$source\"}"
+    maincol=$(echo "$themejson" | gojq -r '.colors.color4 // "'$DEFAULT_COLOR'"')
+fi
+
+generated_material=$(scripts/material_colors.py --color "$maincol" "$lightdark" || echo "{}")
+if [ -z "$generated_material" ] || [ "$generated_material" = "{}" ]; then
+    echo "material_colors.py failed to generate colors" >&2
+    generated_material='{
+        "primary": "'$DEFAULT_COLOR'",
+        "onPrimary": "'$DEFAULT_COLOR'",
+        "primaryContainer": "'$DEFAULT_COLOR'",
+        "onPrimaryContainer": "'$DEFAULT_COLOR'",
+        "secondaryContainer": "'$DEFAULT_COLOR'",
+        "onSecondaryContainer": "'$DEFAULT_COLOR'",
+        "tertiary": "'$DEFAULT_COLOR'",
+        "color4": "'$maincol'"
+    }'
+fi
+fix_color() {
+    local color="$1"
+    [ -z "$color" ] || [ "$color" = "null" ] && color="$DEFAULT_COLOR"
+    echo "$color"
+}
+
+onPrimaryContainer=$(fix_color "$(echo "$generated_material" | gojq -r '.onPrimaryContainer // "'$DEFAULT_COLOR'"')")
+primaryContainer=$(fix_color "$(echo "$generated_material" | gojq -r '.primaryContainer // "'$DEFAULT_COLOR'"')")
+onSecondaryContainer=$(fix_color "$(echo "$generated_material" | gojq -r '.onSecondaryContainer // "'$DEFAULT_COLOR'"')")
+secondaryContainer=$(fix_color "$(echo "$generated_material" | gojq -r '.secondaryContainer // "'$DEFAULT_COLOR'"')")
+tertiary=$(fix_color "$(echo "$generated_material" | gojq -r '.tertiary // "'$DEFAULT_COLOR'"')")
+onPrimary=$(fix_color "$(echo "$generated_material" | gojq -r '.onPrimary // "'$DEFAULT_COLOR'"')")
+primary=$(fix_color "$(echo "$generated_material" | gojq -r '.primary // "'$DEFAULT_COLOR'"')")
+
+# onPrimaryContainer=$(echo "$generated_material" | gojq -r '.onPrimaryContainer // "'$DEFAULT_COLOR'"')
+# primaryContainer=$(echo "$generated_material" | gojq -r '.primaryContainer // "'$DEFAULT_COLOR'"')
+# onSecondaryContainer=$(echo "$generated_material" | gojq -r '.onSecondaryContainer // "'$DEFAULT_COLOR'"')
+# secondaryContainer=$(echo "$generated_material" | gojq -r '.secondaryContainer // "'$DEFAULT_COLOR'"')
+# tertiary=$(echo "$generated_material" | gojq -r '.tertiary // "'$DEFAULT_COLOR'"')
+# onPrimary=$(echo "$generated_material" | gojq -r '.onPrimary // "'$DEFAULT_COLOR'"')
+# primary=$(echo "$generated_material" | gojq -r '.primary // "'$DEFAULT_COLOR'"')
+# secondaryContainerRgba=$(python3 scripts/mcover_rgba.py "${secondaryContainer}" || echo "rgba(181,196,255,$OPACITY)")
+
+# Output JSON for EWW
+printf '{"image": "%s", "color": %s, "materialcolor": {"onPrimaryContainer": "%s", "primaryContainer": "%s", "onPrimary": "%s", "primary": "%s", "secondaryContainer": "%s", "onSecondaryContainer": "%s", "secondaryContainerRgba": "%s", "color4": "%s"}}\n' \
+    "$coverpath" "$themejson" "$onPrimaryContainer" "$primaryContainer" "$onPrimary" "$primary" "$secondaryContainer" "$onSecondaryContainer" "$secondaryContainerRgba" "$maincol"
+
+# Write to scss
+echo "// Auto generated color theme for image at: $coverurl" > './scripts/cache/_colorscheme.colorpallete'
+printf '$colorbarbg: %s;\n' "$(echo "$themejson" | gojq -r '.special.background // "'$DEFAULT_COLOR'"')" >> './scripts/cache/_colorscheme.colorpallete'
+printf '$colorbg: %s;\n' "rgba($(echo "$themejson" | gojq -r '.special.background' | sed 's/#//g' | sed 's/\(..\)\(..\)\(..\)/\1,\2,\3/'),$OPACITY)" >> './scripts/cache/_colorscheme.colorpallete'
+printf '$colortext: %s;\n' "$(echo "$themejson" | gojq -r '.special.foreground // "'$DEFAULT_COLOR'"')" >> './scripts/cache/_colorscheme.colorpallete'
+for i in {0..7}; do
+    printf '$color%d: %s;\n' "$i" "$(echo "$themejson" | gojq -r ".colors.color$i // \"$DEFAULT_COLOR\"")" >> './scripts/cache/_colorscheme.colorpallete'
+done
+
+# Write hyprland color config
+echo '# Auto generated color theme for image at: '"$coverurl" > './scripts/cache/colors_generated.conf'
+echo 'general {' >> './scripts/cache/colors_generated.conf'
+echo '    col.active_border = rgba('"${primary#*#}FF"') 45deg' >> './scripts/cache/colors_generated.conf'
+echo '    col.inactive_border = rgba('"${primary#*#}66"')' >> './scripts/cache/colors_generated.conf'
+echo '}' >> './scripts/cache/colors_generated.conf'
+
+# Write icon colors
+echo "$onPrimaryContainer" > 'scripts/cache/_iconcolor.txt'
+echo "$tertiary" >> 'scripts/cache/_iconcolor.txt'
+printf '%s\n' "$(echo "$themejson" | gojq -r '.colors.color2 // "'$DEFAULT_COLOR'"')" >> 'scripts/cache/_iconcolor.txt'
+printf '%s\n' "$(echo "$themejson" | gojq -r '.colors.color4 // "'$DEFAULT_COLOR'"')" >> 'scripts/cache/_iconcolor.txt'
+printf '%s\n' "$(echo "$themejson" | gojq -r '.colors.color5 // "'$DEFAULT_COLOR'"')" >> 'scripts/cache/_iconcolor.txt'
+printf '%s\n' "$(echo "$themejson" | gojq -r '.colors.color5 // "'$DEFAULT_COLOR'"')" >> 'scripts/cache/_iconcolor.txt'

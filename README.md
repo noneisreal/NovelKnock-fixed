@@ -25,7 +25,7 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 ## Credits
 
 - Huge thanks to `end-4` for the original inspiration and visual magic.
-- Praise be to Jesus for the strength to fix it :))
+- Praise be to Jesus for the strength to fix it
 
 ## List files
 ````

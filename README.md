@@ -17,7 +17,8 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 
 - Fixed paths for Hyprland updated 
 - Added compatibility with non-end-4 users (aka humans)
-- Disable nsfw art 
+- Disable nsfw art
+- Support playing music on google chrome
 - Not working
 
 
@@ -26,4 +27,5 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 - Huge thanks to `end-4` for the original inspiration and visual magic.
 - Praise be to Jesus for the strength to fix it
 
-<div>i don't fix eww anymore, it still having bugs, don't and never use it, unless you want a lag bar and will harm itself</div>
+>i don't fix eww anymore, it still having bugs
+>don't and never use it, unless you want a lag bar and will harm itself

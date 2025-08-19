@@ -174,183 +174,372 @@
 		
 # 	done
 # fi
-
-#!/usr/bin/env bash
+#!/bin/bash
 
 prevtitle=''
 prevartist=''
 
 get_status() {
-	s=$1
-	if [ "$s" = "Playing" ]; then
-		echo ""
-	else
-		echo ""
-	fi
+    s=$1
+    if [ "$s" = "Playing" ]; then
+        echo "playing"
+    else
+        echo "paused"
+    fi
 }
 
 get_length_sec() {
-	len=$1
-	if [ -z "$len" ]; then
-		echo 0
-	else
-		bc <<< "$len / 1000000"
-	fi
+    len=$1
+    if [ -z "$len" ]; then
+        echo 0
+    else
+        bc <<< "$len / 1000000"
+    fi
 }
 
 get_length_time() {
-	len=$1
-	if [ -n "$len" ]; then
-		len=$(bc <<< "$len / 1000000 + 1")
-		date -d@"$len" +%M:%S
-	else
-		echo ""
-	fi
+    len=$1
+    if [ -n "$len" ]; then
+        len=$(bc <<< "$len / 1000000 + 1")
+        date -d@"$len" +%M:%S
+    else
+        echo ""
+    fi
 }
 
 get_position() {
-	pos=$1
-	len=$2
-	if [ -n "$pos" ] && [ -n "$len" ] && [ "$len" != "0" ]; then
-		bc -l <<< "$pos / $len * 100"
-	else
-		echo 0
-	fi
+    pos=$1
+    len=$2
+    if [ -n "$pos" ] && [ -n "$len" ] && [ "$len" != "0" ]; then
+        bc -l <<< "$pos / $len * 100"
+    else
+        echo 0
+    fi
 }
 
 get_position_time() {
-	pos=$1
-	if [ -n "$pos" ]; then
-		date -d@"$(bc <<< "$pos / 1000000")" +%M:%S
-	else
-		echo ""
-	fi
+    pos=$1
+    if [ -n "$pos" ]; then
+        date -d@"$(bc <<< "$pos / 1000000")" +%M:%S
+    else
+        echo ""
+    fi
 }
 
+# get_cover() {
+#     mkdir -p ~/.config/eww/eww_covers
+#     cd ~/.config/eww/eww_covers || exit
+
+#     IMGPATH="cover_art"
+#     DEFAULT_COVER="default_cover.png"
+#     DEFAULT_JSON='{"image": "'$DEFAULT_COVER'", "color": {"special":{"background":"#1c1b1e","foreground":"#e5e1e6"},"colors":{"color0":"#b5c4ff","color1":"#b5c4ff","color2":"#b5c4ff","color3":"#b5c4ff","color4":"#b5c4ff","color5":"#b5c4ff","color6":"#b5c4ff","color7":"#b5c4ff"},"source":"󱛟"},"materialcolor":{"onPrimaryContainer":"#e2dfff","primaryContainer":"#3f3c8f","onPrimary":"#282377","primary":"#c3c0ff","secondaryContainer":"#464559","onSecondaryContainer":"#e3e0f9","secondaryContainerRgba":"rgba(70,69,89,0.75)","tertiary":"#ebb9d2"}}'
+
+#     # Ensure default cover exists
+#     if [ ! -f "$DEFAULT_COVER" ]; then
+#         echo "the default thumbnail is not exits"
+#         # curl -s -o "$DEFAULT_COVER" -m 0.1 --connect-timeout 2 --fail
+#         chmod -w "$DEFAULT_COVER"
+#     fi
+
+#     # Check if any player is available
+#     if ! playerctl -l 2>/dev/null | grep -q .; then
+#         cp "$DEFAULT_COVER" "$IMGPATH" 2>/dev/null
+#         cd ~/.config/eww
+#         colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "default" "󱛟" 2>/dev/null)
+#         echo "$colorgen_output"
+#         return
+#     fi
+
+#     echo "$DEFAULT_JSON"
+
+#     playerctl -F metadata mpris:artUrl 2>/dev/null | while read -r COVER_URL; do
+#         music_source='󰐍'
+#         COVER_URL=${COVER_URL//blob:/}
+#         COVER_URL=${COVER_URL//file:\/\//}
+#         COVER_URL=${COVER_URL//%20/ }
+#         rm -f "$IMGPATH" 2>/dev/null
+#         if [[ "$COVER_URL" = *"https"* ]]; then
+#             music_source='󰖟'
+#             coverurl="$COVER_URL"
+#             coverurl_highres_yt="$(echo "$coverurl" | sed 's/hqdefault/maxresdefault/g')"
+#             coverurl_highres_soundcloud="$(echo "$coverurl" | sed 's/80x80/500x500/g')"
+#             success=0
+#             if [[ "$coverurl" == *"sndcdn"* ]]; then
+#                 music_source='󰓀'
+#                 curl --silent --output "${IMGPATH}_soundcloud" "$coverurl_highres_soundcloud" -m 0.1 --connect-timeout 2 --fail
+#                 if [ $? -eq 0 ]; then
+#                     mv "${IMGPATH}_soundcloud" "$IMGPATH"
+#                     success=1
+#                 fi
+#             elif [[ "$coverurl" == *"ytimg"* ]]; then
+#                 music_source='󰗃'
+#                 curl --silent --output "${IMGPATH}_yt" "$coverurl_highres_yt" -m 0.1 --connect-timeout 2 --fail
+#                 if [ $? -eq 0 ]; then
+#                     mv "${IMGPATH}_yt" "$IMGPATH"
+#                     success=1
+#                 fi
+#             elif [[ "$coverurl" == *"googleusercontent"* ]]; then
+#                 music_source=''
+#                 curl --silent --output "${IMGPATH}_other" "$coverurl" -m 0.1 --connect-timeout 2 --fail
+#                 if [ $? -eq 0 ]; then
+#                     mv "${IMGPATH}_other" "$IMGPATH"
+#                     success=1
+#                 fi
+#             elif [[ "$coverurl" == *"spotify"* ]]; then
+#                 music_source='󰓇'
+#                 curl --silent --output "${IMGPATH}_other" "$coverurl" -m 0.1 --connect-timeout 2 --fail
+#                 if [ $? -eq 0 ]; then
+#                     mv "${IMGPATH}_other" "$IMGPATH"
+#                     success=1
+#                 fi
+#             fi
+#             if [ $success -eq 0 ]; then
+#                 curl --silent --output "${IMGPATH}_lowres" "$coverurl" -m 1 --connect-timeout 2 --fail
+#                 if [ $? -eq 0 ]; then
+#                     mv "${IMGPATH}_lowres" "$IMGPATH"
+#                     success=1
+#                 fi
+#             fi
+#             imgsize=$(du -b ~/.config/eww/eww_covers/$IMGPATH 2>/dev/null | awk '{print $1}' || echo 0)
+#             if [ $success -eq 1 ] && [ $imgsize -gt 1000 ]; then
+#                 cd ~/.config/eww
+#                 colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "$coverurl" "$music_source" 2>/dev/null)
+#                 if echo "$colorgen_output" | jq . >/dev/null 2>&1; then
+#                     echo "$colorgen_output"
+#                 else
+#                     cp "eww_covers/$DEFAULT_COVER" "eww_covers/$IMGPATH"
+#                     colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "default" "$music_source" 2>/dev/null)
+#                     echo "$colorgen_output"
+#                 fi
+#                 cd eww_covers
+#             else
+#                 cp "$DEFAULT_COVER" "$IMGPATH"
+#                 cd ~/.config/eww
+#                 colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "default" "$music_source" 2>/dev/null)
+#                 echo "$colorgen_output"
+#                 cd eww_covers
+#             fi
+#         elif [ -z "$COVER_URL" ]; then
+#             cp "$DEFAULT_COVER" "$IMGPATH"
+#             cd ~/.config/eww
+#             colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "default" "$music_source" 2>/dev/null)
+#             echo "$colorgen_output"
+#             cd eww_covers
+#         else
+#             music_source='󱛟'
+#             cp "$COVER_URL" "$IMGPATH" 2>/dev/null
+#             imgsize=$(du -b ~/.config/eww/eww_covers/$IMGPATH 2>/dev/null | awk '{print $1}' || echo 0)
+#             if [ $imgsize -gt 1000 ]; then
+#                 cd ~/.config/eww
+#                 colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "$COVER_URL" "$music_source" 2>/dev/null)
+#                 if echo "$colorgen_output" | jq . >/dev/null 2>&1; then
+#                     echo "$colorgen_output"
+#                 else
+#                     cp "eww_covers/$DEFAULT_COVER" "eww_covers/$IMGPATH"
+#                     colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "default" "$music_source" 2>/dev/null)
+#                     echo "$colorgen_output"
+#                 fi
+#                 cd eww_covers
+#             else
+#                 cp "$DEFAULT_COVER" "$IMGPATH"
+#                 cd ~/.config/eww
+#                 colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "default" "$music_source" 2>/dev/null)
+#                 echo "$colorgen_output"
+#                 cd eww_covers
+#             fi
+#         fi
+#     done
+# }
 get_cover() {
-	mkdir -p "eww_covers"
-	cd "eww_covers" || exit
+    mkdir -p ~/.config/eww/eww_covers
+    cd ~/.config/eww/eww_covers || exit
 
-	IMGPATH="cover_art"
-	echo '{"image": "null", "color": {"alpha":"100","colors":{"color0":"null","color1":"null","color10":"null","color11":"null","color12":"null","color13":"null","color14":"null","color15":"null","color2":"null","color3":"null","color4":"null","color5":"null","color6":"null","color7":"null","color8":"null","color9":"null"},"special":{"background":"null","cursor":"null","foreground":"null"},"wallpaper":"~/.config/eww/eww_covers/cover_art","source":"󱛟"},"materialcolor":{"onPrimary":"null","onPrimaryContainer":"null","onSecondaryContainer":"null","primary":"null","primaryContainer":"null","secondaryContainer":"null", "secondaryContainerRgba":"null"}}'
+    IMGPATH="cover_art"
+    DEFAULT_COVER="default_cover.png"
+    DEFAULT_JSON='{"image": "eww_covers/default_cover.png", "color": {"special":{"background":"#1c1b1e","foreground":"#e5e1e6"},"colors":{"color0":"#b5c4ff","color1":"#b5c4ff","color2":"#b5c4ff","color3":"#b5c4ff","color4":"#b5c4ff","color5":"#b5c4ff","color6":"#b5c4ff","color7":"#b5c4ff"},"source":"󱛟"},"materialcolor":{"onPrimaryContainer":"#e2dfff","primaryContainer":"#3f3c8f","onPrimary":"#282377","primary":"#c3c0ff","secondaryContainer":"#464559","onSecondaryContainer":"#e3e0f9","secondaryContainerRgba":"rgba(70,69,89,0.75)","tertiary":"#ebb9d2"}}'
 
-	playerctl -F metadata mpris:artUrl 2>/dev/null | while read -r COVER_URL; do
-		music_source='󰐍'
-		COVER_URL=${COVER_URL//blob:/}
-		COVER_URL=${COVER_URL//file:\/\//}
-		COVER_URL=${COVER_URL//%20/ }
+    
+    if [ ! -f "$DEFAULT_COVER" ]; then
+        echo "Error: default_cover.png does not exist in ~/.config/eww/eww_covers"
+        echo "$DEFAULT_JSON"
+        exit 1
+    fi
 
-		if [[ "$COVER_URL" = *"https"* ]]; then
-			music_source='󰖟'
-			coverurl="$(playerctl metadata mpris:artUrl)"
-			coverurl_highres_yt="$(echo $coverurl | sed 's/hqdefault/maxresdefault/g')"
-			coverurl_highres_soundcloud="$(echo $coverurl | sed 's/80x80/500x500/g')"
-			# SoundCloud
-			if [[ "$coverurl" == *"sndcdn"* ]]; then
-				music_source='󰓀'
-				curl --silent --max-time 1 --output "${IMGPATH}_soundcloud" "$coverurl_highres_soundcloud"
-				cp "${IMGPATH}_soundcloud" "$IMGPATH"
-				imgsize=$(stat -c %s ~/.config/eww/eww_covers/cover_art 2>/dev/null)
-			# Youtube
-			elif [[ "$coverurl" == *"ytimg"* ]]; then
-				music_source='󰗃'
-				curl --silent --max-time 1 --output "${IMGPATH}_yt" "$coverurl_highres_yt"
-				cp "${IMGPATH}_yt" "$IMGPATH"
-				imgsize=$(stat -c %s ~/.config/eww/eww_covers/cover_art 2>/dev/null)
-			# Likely YT Music
-			elif [[ "$coverurl" == *"googleusercontent"* ]]; then
-				music_source=''
-				curl --silent --max-time 1 --output "${IMGPATH}_other" "$coverurl"
-				cp "${IMGPATH}_other" "$IMGPATH"
-				imgsize=$(stat -c %s ~/.config/eww/eww_covers/cover_art 2>/dev/null)
-			elif [[ "$coverurl" == *"spotify"* ]]; then
-				music_source='󰓇'
-				curl --silent --max-time 1 --output "${IMGPATH}_other" "$coverurl"
-				cp "${IMGPATH}_other" "$IMGPATH"
-				imgsize=$(stat -c %s ~/.config/eww/eww_covers/cover_art 2>/dev/null)
-			# Any other
-			else
-				curl --silent --max-time 1 --output "${IMGPATH}_other" "$coverurl"
-				cp "${IMGPATH}_other" "$IMGPATH"
-				imgsize=$(stat -c %s ~/.config/eww/eww_covers/cover_art 2>/dev/null)
-			fi
-			# Fallback
-			if [ "$imgsize" = "0" ] || { [ -f ~/.config/eww/eww_covers/cover_art_error ] && diff ~/.config/eww/eww_covers/cover_art ~/.config/eww/eww_covers/cover_art_error >/dev/null; }; then
-				curl --silent --max-time 1 --output "${IMGPATH}_lowres" "$coverurl"
-				cp "${IMGPATH}_lowres" "$IMGPATH"
-			fi
+    
+    if ! playerctl -l 2>/dev/null | grep -q .; then
+        cp "$DEFAULT_COVER" "$IMGPATH" 2>/dev/null
+        echo "$DEFAULT_JSON"
+        return
+    fi
 
-			# Generate colors
-			cd ..
-			colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "$coverurl" "$music_source")
-			if echo "$colorgen_output" | jq . >/dev/null 2>&1; then
-				echo "$colorgen_output"
-			else
-				echo '{"image":"null"}'
-			fi
-			cd "eww_covers"
-		elif [ "$COVER_URL" = "" ]; then
-		    echo '{"image": "", "color": "$bg"}'
-		else
-			music_source='󱛟'
-			cp "$COVER_URL"  "$IMGPATH"
-			cd ..
-			colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "$COVER_URL" "$music_source")
-			if echo "$colorgen_output" | jq . >/dev/null 2>&1; then
-				echo "$colorgen_output"
-			else
-				echo '{"image":"null"}'
-			fi
-			cd "eww_covers"
-		fi
-	done
+    
+    PLAYERS=$(playerctl -l 2>/dev/null)
+    SELECTED_PLAYER=""
+    for player in $PLAYERS; do
+        if playerctl -p "$player" metadata mpris:artUrl 2>/dev/null | grep -q .; then
+            SELECTED_PLAYER="$player"
+            break
+        fi
+    done
+
+    
+    if [ -z "$SELECTED_PLAYER" ]; then
+        cp "$DEFAULT_COVER" "$IMGPATH" 2>/dev/null
+        echo "$DEFAULT_JSON"
+        return
+    fi
+
+    echo "$DEFAULT_JSON"
+
+    playerctl -p "$SELECTED_PLAYER" -F metadata mpris:artUrl 2>/dev/null | while read -r COVER_URL; do
+        music_source='󰐍'
+        COVER_URL=${COVER_URL//blob:/}
+        COVER_URL=${COVER_URL//file:\/\//}
+        COVER_URL=${COVER_URL//%20/ }
+        rm -f "$IMGPATH" 2>/dev/null
+
+        if [[ "$COVER_URL" = *"https"* ]]; then
+            music_source='󰖟'
+            coverurl="$COVER_URL"
+            coverurl_highres_yt="$(echo "$coverurl" | sed 's/hqdefault/maxresdefault/g')"
+            coverurl_highres_soundcloud="$(echo "$coverurl" | sed 's/80x80/500x500/g')"
+            success=0
+
+            
+            if [[ "$coverurl" == *"sndcdn"* ]]; then
+                music_source='󰓀'
+                curl --silent --output "${IMGPATH}_soundcloud" "$coverurl_highres_soundcloud" -m 5 --connect-timeout 5 --fail
+                if [ $? -eq 0 ]; then
+                    mv "${IMGPATH}_soundcloud" "$IMGPATH"
+                    success=1
+                fi
+            elif [[ "$coverurl" == *"ytimg"* ]]; then
+                music_source='󰗃'
+                curl --silent --output "${IMGPATH}_yt" "$coverurl_highres_yt" -m 5 --connect-timeout 5 --fail
+                if [ $? -eq 0 ]; then
+                    mv "${IMGPATH}_yt" "$IMGPATH"
+                    success=1
+                fi
+            elif [[ "$coverurl" == *"googleusercontent"* ]]; then
+                music_source=''
+                curl --silent --output "${IMGPATH}_other" "$coverurl" -m 5 --connect-timeout 5 --fail
+                if [ $? -eq 0 ]; then
+                    mv "${IMGPATH}_other" "$IMGPATH"
+                    success=1
+                fi
+            elif [[ "$coverurl" == *"spotify"* ]]; then
+                music_source='󰓇'
+                curl --silent --output "${IMGPATH}_other" "$coverurl" -m 5 --connect-timeout 5 --fail
+                if [ $? -eq 0 ]; then
+                    mv "${IMGPATH}_other" "$IMGPATH"
+                    success=1
+                fi
+            elif [[ "$coverurl" == *"hdslb"* ]]; then
+                music_source='󰚺'
+                clean_url=$(echo "$coverurl" | sed 's/@.*//')
+                curl --silent --output "${IMGPATH}_other" "$clean_url" -m 5 --connect-timeout 5 --fail
+                if [ $? -eq 0 ]; then
+                    mv "${IMGPATH}_other" "$IMGPATH"
+                    success=1
+                fi
+            fi
+
+            
+            if [ $success -eq 0 ]; then
+                curl --silent --output "${IMGPATH}_lowres" "$coverurl" -m 5 --connect-timeout 5 --fail
+                if [ $? -eq 0 ]; then
+                    mv "${IMGPATH}_lowres" "$IMGPATH"
+                    success=1
+                fi
+            fi
+
+            imgsize=$(du -b ~/.config/eww/eww_covers/$IMGPATH 2>/dev/null | awk '{print $1}' || echo 0)
+            if [ $success -eq 1 ] && [ $imgsize -gt 0 ]; then
+                cd ~/.config/eww
+                colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "$coverurl" "$music_source" 2>/dev/null)
+                if echo "$colorgen_output" | jq . >/dev/null 2>&1; then
+                    echo "$colorgen_output"
+                else
+                    cp "eww_covers/$DEFAULT_COVER" "eww_covers/$IMGPATH"
+                    echo "$DEFAULT_JSON"
+                fi
+                cd eww_covers
+            else
+                cp "$DEFAULT_COVER" "$IMGPATH"
+                echo "$DEFAULT_JSON"
+            fi
+        elif [ -z "$COVER_URL" ]; then
+            cp "$DEFAULT_COVER" "$IMGPATH"
+            echo "$DEFAULT_JSON"
+        else
+            music_source='󱛟'
+            cp "$COVER_URL" "$IMGPATH" 2>/dev/null
+            imgsize=$(du -b ~/.config/eww/eww_covers/$IMGPATH 2>/dev/null | awk '{print $1}' || echo 0)
+            if [ $imgsize -gt 0 ]; then
+                cd ~/.config/eww
+                colorgen_output=$(~/.config/eww/scripts/colorgen "eww_covers/$IMGPATH" "$COVER_URL" "$music_source" 2>/dev/null)
+                if echo "$colorgen_output" | jq . >/dev/null 2>&1; then
+                    echo "$colorgen_output"
+                else
+                    cp "eww_covers/$DEFAULT_COVER" "eww_covers/$IMGPATH"
+                    echo "$DEFAULT_JSON"
+                fi
+                cd eww_covers
+            else
+                cp "$DEFAULT_COVER" "$IMGPATH"
+                echo "$DEFAULT_JSON"
+            fi
+        fi
+    done
 }
 
 sanitize() {
-	echo "$1" | sed 's/"/\"/g'
+    echo "$1" | sed 's/"/\"/g'
 }
 
 if [ "$1" = "cover" ]; then
-	get_cover
+    get_cover
 elif [ "$1" = "name" ]; then
-	lentolimit=41
-	if [ -n "$2" ]; then
-		lentolimit=$2
-	fi
-	echo '{"artist": "", "title": ""}'
-	playerctl -F metadata -f '{{title}}\{{artist}}\' 2>/dev/null | while IFS="$(printf '\\')" read -r title artist; do
-		if [[ "$title" == *" - YouTube"* && "$artist" == "" ]]; then
-			continue
-		elif [[ "$title" == *"YouTube Music" && "$artist" == "" ]]; then
-			continue
-		fi
-		title=$(scripts/limitlen.py "$title" "$lentolimit")
-		artist=$(scripts/limitlen.py "$artist" "$lentolimit")
-		
-		gojq --null-input -r -c \
-			--arg artist "$(sanitize "$artist")" \
-			--arg title "$(sanitize "$title")" \
-			'{"artist": $artist, "title": $title}'
-	done
+    lentolimit=41
+    if [ -n "$2" ]; then
+        lentolimit=$2
+    fi
+    echo '{"artist": "", "title": ""}'
+    playerctl -F metadata -f '{{title}}\{{artist}}\' 2>/dev/null | while IFS="$(printf '\\')" read -r title artist; do
+        if [[ "$title" == *" - YouTube"* && "$artist" == "" ]]; then
+            continue
+        elif [[ "$title" == *"YouTube Music" && "$artist" == "" ]]; then
+            continue
+        fi
+        title=$(~/.config/eww/scripts/limitlen.py "$title" "$lentolimit")
+        artist=$(~/.config/eww/scripts/limitlen.py "$artist" "$lentolimit")
+        
+        gojq --null-input -r -c \
+            --arg artist "$(sanitize "$artist")" \
+            --arg title "$(sanitize "$title")" \
+            '{"artist": $artist, "title": $title}'
+    done
 else
-	echo '{"artist": "", "title": "", "status": "", "position": "", "position_time": "", "length": ""}'
-	playerctl -F metadata -f '{{title}}\{{artist}}\{{status}}\{{position}}\' 2>/dev/null | while IFS="$(printf '\\')" read -r title artist status position; do
-		if [[ "$title" == *" - YouTube" && "$artist" == "" ]]; then
-			continue
-		elif [[ "$title" == *"YouTube Music" && "$artist" == "" ]]; then
-			continue
-		fi
-		len=$(playerctl metadata mpris:length)
-		title=$(scripts/limitlen.py "$title" 40)
-		artist=$(scripts/limitlen.py "$artist" 40)
+    echo '{"artist": "", "title": "", "status": "", "position": "", "position_time": "", "length": ""}'
+    playerctl -F metadata -f '{{title}}\{{artist}}\{{status}}\{{position}}\' 2>/dev/null | while IFS="$(printf '\\')" read -r title artist status position; do
+        if [[ "$title" == *" - YouTube" && "$artist" == "" ]]; then
+            continue
+        elif [[ "$title" == *"YouTube Music" && "$artist" == "" ]]; then
+            continue
+        fi
+        len=$(playerctl metadata mpris:length)
+        title=$(~/.config/eww/scripts/limitlen.py "$title" 40)
+        artist=$(~/.config/eww/scripts/limitlen.py "$artist" 40)
 
-		gojq --null-input -r -c \
-			--arg artist "$(sanitize "$artist")" \
-			--arg title "$(sanitize "$title")" \
-			--arg status "$(get_status "$status")" \
-			--arg pos "$(get_position "$position" "$len")" \
-			--arg pos_time "$(get_position_time "$position")" \
-			--arg length "$(get_length_time "$len")" \
-			'{"artist": $artist, "title": $title, "status": $status, "position": $pos, "position_time": $pos_time, "length": $length}'
-	done
+        gojq --null-input -r -c \
+            --arg artist "$(sanitize "$artist")" \
+            --arg title "$(sanitize "$title")" \
+            --arg status "$(get_status "$status")" \
+            --arg pos "$(get_position "$position" "$len")" \
+            --arg pos_time "$(get_position_time "$position")" \
+            --arg length "$(get_length_time "$len")" \
+            '{"artist": $artist, "title": $title, "status": $status, "position": $pos, "position_time": $pos_time, "length": $length}'
+    done
 fi
+
+

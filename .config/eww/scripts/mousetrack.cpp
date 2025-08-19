@@ -5,24 +5,33 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+using boost::iostreams::file_descriptor_source;
+using boost::iostreams::never_close_handle;
+using boost::iostreams::stream;
+using std::string;
+using std::unique_ptr;
+
 using namespace std;
 
-void cavaToJson(std::string& s) 
-{
-    for(int i = 0; i < s.size(); i++)
-    {
-        if(s[i] == ';') s[i] = ',';
-    }
-    s.pop_back();
+// Terminate existing CAVA processes
+void kill_existing_cava() {
+    system("pkill -f 'cava -p ~/.config/eww/scripts/custom_configs/cava' 2>/dev/null");
 }
 
-void cursorPosToJson(std::string& s) 
-{
-    for(int i = 0; i < s.size(); i++)
-    {
-        if(s[i] == ';') s[i] = ',';
-    }
-    s.pop_back();
+void cavaToJson(string &s) {
+  for (int i = 0; i < s.size(); i++) {
+    if (s[i] == ';')
+      s[i] = ',';
+  }
+  s.pop_back();
+}
+
+void cursorPosToJson(string &s) {
+  for (int i = 0; i < s.size(); i++) {
+    if (s[i] == ';')
+      s[i] = ',';
+  }
+  s.pop_back();
 }
 
 string exec(const char* cmd) 
@@ -43,14 +52,17 @@ string exec(const char* cmd)
 
 int main()
 {
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen("cava -p ~/.config/eww/scripts/custom_configs/cava", "r"), pclose);
-    if (!pipe) 
-    {
-        throw std::runtime_error("popen() failed!");
-    }
-    boost::iostreams::file_descriptor_source fd(fileno(pipe.get()), boost::iostreams::never_close_handle);
-    boost::iostreams::stream<boost::iostreams::file_descriptor_source> is(fd);
-    std::string line;
+    // Kill cava before it exits
+    kill_existing_cava();
+
+  unique_ptr<FILE, decltype(&pclose)> pipe(
+      popen("cava -p ~/.config/eww/scripts/custom_configs/cava", "r"), pclose);
+  if (!pipe) {
+    throw std::runtime_error("popen() failed!");
+  }
+    file_descriptor_source fd(fileno(pipe.get()), never_close_handle);
+    stream<file_descriptor_source> is(fd);
+    string line;
 
     while (std::getline(is, line)) 
     {

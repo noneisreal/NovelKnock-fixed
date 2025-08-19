@@ -1,12 +1,12 @@
-// Auto generated color theme for image at: 
-$colorbarbg: #0d131e;
-$colorbg: rgba(0d,13,1e,0.75);
-$colortext: #c2c4c6;
-$color0: #0d131e;
-$color1: #6B833F;
-$color2: #6A8950;
-$color3: #728678;
-$color4: #AA994E;
-$color5: #A4995A;
-$color6: #798F83;
-$color7: #c2c4c6;
+// Auto generated color theme for image at: https://i1.hdslb.com/bfs/archive/c8a6cd7a6ba85a3fb7a416f3f53ab9f739c00e26.jpg@320w.webp
+$colorbarbg: #5b2709;
+$colorbg: rgba(91,39,9,0.75);
+$colortext: #fbc7a9;
+$color0: #ab7759;
+$color1: #bf8b6d;
+$color2: #976345;
+$color3: #d39f81;
+$color4: #834f31;
+$color5: #e7b395;
+$color6: #6f3b1d;
+$color7: #fbc7a9;

@@ -302,18 +302,27 @@
                       (label
                         :class "bar-icon-material sidebar-music-device"
                         :text "${volume.device == 'Headphones' ? '' : volume.device == 'Speakers' ? '' : ''}" 
+                        ; :style "
+                        ; color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
+                        ; z-index 10;
+                        ; "
                         :style "
                         color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
-                        z-index 10;
+                        
                         "
                         ; need to change z-index (but it works btw)
                       )
                       (label
+                        ; :style "
+                        ;   color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
+                        ;   z-index 10;
+                        ;   "
                         :style "
                           color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
-                          z-index 10;
+                          
                           "
                           ; z-index is not support in eww but it works btw, idk what are GTK+ thinking
+                          ; those thinking was kinda weired but yeah, it works for time when can't fix the colorgen
                         :text "${volume.device == '' ? 'Unknown' : volume.device}"
                       )
                     )
@@ -348,7 +357,7 @@
                       :style "
                         background-color: ${mcover.materialcolor.primary == 'null' || mcover.materialcolor.primary == '' ? '#b5c4ff' : mcover.materialcolor.primary};
                         color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
-                        z-index 10;
+
                         "
                       ; here too, idk what is it thinking, i don't like this compiler so much 
                       :onclick "playerctl play-pause"

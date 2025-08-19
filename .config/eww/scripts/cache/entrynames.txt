@@ -36,7 +36,6 @@ KCalc
 KDE Connect
 KDE Connect Indicator
 KDE Connect SMS
-KDE Connect Settings
 KDE System Settings
 KWrite
 Kate

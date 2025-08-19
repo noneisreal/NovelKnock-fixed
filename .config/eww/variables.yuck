@@ -117,10 +117,10 @@
 (deflisten memory :initial `{ "total": "8G", "used": "4G", "free": "4G", "swaptotal": "8G", "swapused": "0M", "swappercentage": 0.0, "swapfree": "8G", "percentage": 50 }` "scripts/memory.sh")
 (deflisten music :initial `{"artist" :"","length":"00:00","position":"0","position_time":"00:00","status":"","title":"Music"}` "scripts/music")
 (deflisten mcover
-  :initial '{"image": "null", "color": {"alpha":"100","colors":{"color0":"null","color1":"null","color10":"null","color11":"null","color12":"null","color13":"null","color14":"null","color15":"null","color2":"null","color3":"null","color4":"null","color5":"null","color6":"null","color7":"null","color8":"null","color9":"null"},"special":{"background":"null","cursor":"null","foreground":"null"},"wallpaper":"~/.config/eww/eww_covers/cover_art","source":"󱛟"},"materialcolor":{"onPrimary":"null","onPrimaryContainer":"null","onSecondaryContainer":"null","primary":"null","primaryContainer":"null","secondaryContainer":"null"}}'
+  :initial '{"image": "eww_covers/default_cover.png", "color": {"alpha":"100","colors":{"color0":"null","color1":"null","color10":"null","color11":"null","color12":"null","color13":"null","color14":"null","color15":"null","color2":"null","color3":"null","color4":"null","color5":"null","color6":"null","color7":"null","color8":"null","color9":"null"},"special":{"background":"null","cursor":"null","foreground":"null"},"wallpaper":"~/.config/eww/eww_covers/cover_art","source":"󱛟"},"materialcolor":{"onPrimary":"null","onPrimaryContainer":"null","onSecondaryContainer":"null","primary":"null","primaryContainer":"null","secondaryContainer":"null"}}'
   "scripts/music cover"
 )
-(deflisten notifications :initial '[]' "scripts/notify-receive/ | gojq -c -M 'reverse'")
+; (deflisten notifications :initial '[]' "scripts/notify-receive/ | gojq -c -M 'reverse'")
 (deflisten notif_icons :initial `{"icon": "󰆄", "paused": false, "toggle_icon": ""}` "scripts/notifications icons")
 (deflisten net :initial `{ "essid": "lo", "icon": "", "level": "0" }` "scripts/net")
 (deflisten volume :initial `{"icon":"-","audio":"1","device":"Headphones","percent":"32","microphone":"100"}` "scripts/volume | tr -d '\200-\377'")
@@ -144,11 +144,14 @@
 (deflisten directories :initial "[]" "cat json/directories.json | gojq -c -M")
 (deflisten websites :initial "[]" "cat json/websites.json | gojq -c -M")
 (deflisten audiodevice `pactl --format=json list sinks | gojq -c -r '.[0]["description"]'`)
-(deflisten cavajson :initial "[]" `scripts/cavajson | jq -c .`)
+(deflisten cavajson :initial "[]" :interval "1s" `scripts/cavajson | jq -c .`)
 ; (deflisten cavajson :initial "[[0,0]]" `echo '[[0,0]]'`)
 (deflisten mousepos `scripts/mousetrack`)
 (deflisten taskviewlayout `scripts/taskviewlayout-wrapper`)
-(deflisten lang_ibus :initial "{\"name\":\"English (xkb)\",\"name_abbr\":\"ENG\",\"name_ibus\":\"xkb:us::eng\"}" `scripts/language`)
+; (deflisten lang_ibus :initial "{\"name\":\"English (xkb)\",\"name_abbr\":\"ENG\",\"name_ibus\":\"xkb:us::eng\"}" `scripts/language`)
+(defvar lang_ibus "{\"name\":\"English (xkb)\",\"name_abbr\":\"ENG\",\"name_ibus\":\"xkb:us::eng\"}")
+(defpoll notifications :initial "[]" :interval "15s" `~/testing/notify-receive.sh || echo "[]"`)
+
 (defpoll langs :initial "[]" :interval "5m" `cat json/langs.json | gojq -c -M`)
 (defpoll colormode   :interval "5m" "cat scripts/workdir/__mode_colors.txt")
 (defpoll coloraccent :initial "#E22369" :interval "5m" "cat css/_iconcolor.txt | head -1")

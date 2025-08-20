@@ -1,6 +1,5 @@
 ![Built for Hyprland](https://img.shields.io/badge/Built%20for-Hyprland-blueviolet?style=flat-square)
 ![Based on end-4](https://img.shields.io/badge/Based_on-end--4-informational?style=flat-square)
-![License](https://img.shields.io/github/license/noneisreal/NovelKnock-dots-hyprland-fixed?style=flat-square)
 ![EndeavourOS Tested](https://img.shields.io/badge/Tested%20on-EndeavourOS-blue?style=flat-square&logo=archlinux)
 
 # Fixed "NovelKnock" Dotfiles (Hyprland Edition)

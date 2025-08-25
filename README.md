@@ -32,4 +32,4 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 >i still fix eww, it still having bugs
 >don't use it, unless you want a lag bar and will harm itself sometimes
 
-<i> And about the project folder in repo, that is from end-4, but also not working so i used other solution to appear notifications, you shouldn't use or compile it</i>
+<i> And about the folder "projects" folder in repo, that is from end-4, but also not working so i used other solution to appear notifications, you shouldn't use or compile it</i>

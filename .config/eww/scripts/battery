@@ -2,18 +2,18 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-#########testing########
+######### testing ########
 # bat_dir=/tmp/fakeBAT0
-# if you want to test but with no battery in your PC, use this scripts
+# # if you want to test but with no battery in your computer, use this scripts
 # mkdir -p /tmp/fakeBAT0
-# echo 50 > /tmp/fakeBAT0/capacity
-# echo Charging > /tmp/fakeBAT0/status
+# echo 20 > /tmp/fakeBAT0/capacity
+# echo Discharging > /tmp/fakeBAT0/status
 # echo 4000000 > /tmp/fakeBAT0/voltage_now
 # echo 1000000 > /tmp/fakeBAT0/current_now
 # echo 10000000 > /tmp/fakeBAT0/charge_full
 # echo 5000000 > /tmp/fakeBAT0/charge_now
 
-##########scan folder#########
+########## scan folder #########
 bat_dir=$(find /sys/class/power_supply -maxdepth 1 -type d -name 'BAT*' | head -n1)
 if [[ -z "$bat_dir" ]]; then
 	echo '{"quickicon": "", "icon": "", "percentage": 100, "wattage": "0 W", "status": "no-battery", "circolor": "transparent", "cirbgcolor": "transparent", "color": "transparent", "bgcolor": "transparent" }'
@@ -127,22 +127,23 @@ while true; do
 	RATE=$(cat "$bat_dir"/voltage_now | head -1)
 	CAPACITY=$(cat "$bat_dir"/capacity | head -1)
 	STATE=$(cat "$bat_dir"/status | head -1)
+	RANDOM_IMAGE=~/.config/eww/scripts/supersecretsettings/ussr.png;
 
 	if [[ -n "$CAPACITY" && "$STATE" = "Discharging" ]]; then
 		if [[ "$CAPACITY" -le 5 ]]; then
 			if [[ "$warnedlow" -eq 0 ]]; then 
 				warnedlow=1
-				notify-send 'FREAKING PLUG IN THE CHARGER ALREADY' '!!111!!1!123!!!' -u critical -a 'eww'
+				notify-send 'FREAKING PLUG IN THE CHARGER ALREADY' '!!111!!1!123!!!' -u critical -a 'eww' -p -h "string:image-path:$RANDOM_IMAGE" 
 			fi
 		elif [[ "$CAPACITY" -le 10 && "$STATE" = "Discharging" ]]; then
 			if [[ "$warnedlow" -eq 0 ]]; then 
 				warnedlow=1
-				notify-send 'Battery verrry low' 'Hello?' -u critical -a 'eww'
+				notify-send 'Battery verrry low' 'Hello?' -u critical -a 'eww' -p -h "string:image-path:$RANDOM_IMAGE"
 			fi
 		elif [[ "$CAPACITY" -le 20 && "$STATE" = "Discharging" ]]; then
 			if [[ "$warnedlow" -eq 0 ]]; then 
 				warnedlow=1
-				notify-send 'Battery low' 'Plug in your charger pweeeeaaase :>' -u critical -a 'eww'
+				notify-send 'Battery low' 'Plug in your charger pweeeeaaase :>' -u critical -a 'eww' -p -h "string:image-path:$RANDOM_IMAGE"
 			fi
 		else
 			warnedlow=0

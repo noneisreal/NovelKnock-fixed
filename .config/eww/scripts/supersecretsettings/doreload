@@ -5,6 +5,6 @@ cp ~/.config/hypr/hyprland.conf temporary_config.conf && cp temporary_config.con
 rm temporary_config.conf
 
 pkill swaybg
-swaybg -i images/wallpaper/wallpaper-normal
+# swaybg -i images/wallpaper/wallpaper-normal
 
 kill $(pidof eww) && eww open bar && eww open bg-decor

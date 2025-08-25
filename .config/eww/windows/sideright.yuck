@@ -156,38 +156,39 @@
                     :class "sidebar-quicktoggle-btn sidebar-quicktoggle-btn-right"
                     :style "margin-left: 3px;"
                     :tooltip "Scroll !"
-                    ; (eventbox
-                    ;   :hexpand true
-                    ;   :onscroll "echo {} | sed -e 's/down/-U 3/g' -e 's/up/-A 3/g' | xargs light &"
-                    ;   (overlay
-                    ;     :hexpand true
-                    ;     (box
-                    ;       :hexpand true
-                    ;       :valign "center"
-                    ;       :class "sidebar-brightness-progress"
-                    ;       :style "
-                    ;       background-image:
-                    ;       linear-gradient(to right, ${coloraccent} ${brightness.level}%, rgba(200, 200, 200, 0.6) ${brightness.level}%);
-                    ;       "
-                    ;     )
-                    ;     (label
-                    ;       :class "sidebar-brightness-progress-btn"
-                    ;       :valign "center"
-                    ;       :xalign {brightness.level / 100}
-                    ;       :style "
-                    ;       color: ${coloraccent};
-                    ;       "
-                    ;       :text "●"
-                    ;     )
-                    ;   )
-                    ; )
-                    (scale
-                        :value "${brightness.level}"
-                        :onschange "bash -c \"DEVICE=\$(brightnessctl --list | grep backlight | awk '{print \$2}' | head -n 1 | tr -d \"'\"); if [ -n \\\"\$DEVICE\\\" ]; then if [ \\\"{}\\\" = \\\"up\\\" ]; then brightnessctl -d \\\"\$DEVICE\\\" set +10%; elif [ \\\"{}\\\" = \\\"down\\\" ]; then brightnessctl -d \\\"\$DEVICE\\\" set 10%-; fi; else echo 'No backlight device found'; fi\" && scripts/brightness osd &"
-                        ; :onchange "light -S {}"
+                    (eventbox
+                      :hexpand true
+                      ; :onscroll "echo {} | sed -e 's/down/-U 3/g' -e 's/up/-A 3/g' | xargs light &"
+                      :onscroll "bash -c \"DEVICE=\$(brightnessctl --list | grep backlight | awk '{print \$2}' | head -n 1 | tr -d \"'\"); if [ -n \\\"\$DEVICE\\\" ]; then if [ \\\"{}\\\" = \\\"up\\\" ]; then brightnessctl -d \\\"\$DEVICE\\\" set +3%; elif [ \\\"{}\\\" = \\\"down\\\" ]; then brightnessctl -d \\\"\$DEVICE\\\" set 3%-; fi; else echo 'No backlight device found'; fi\" &"
+                      (overlay
                         :hexpand true
-                        :class "sidebar-quicktoggle-slider"
+                        (box
+                          :hexpand true
+                          :valign "center"
+                          :class "sidebar-brightness-progress"
+                          :style "
+                          background-image:
+                          linear-gradient(to right, ${coloraccent} ${brightness.level}%, rgba(200, 200, 200, 0.6) ${brightness.level}%);
+                          "
+                        )
+                        (label
+                          :class "sidebar-brightness-progress-btn"
+                          :valign "center"
+                          :xalign {brightness.level / 100}
+                          :style "
+                          color: ${coloraccent};
+                          "
+                          :text "●"
+                        )
+                      )
                     )
+                    ; (scale
+                    ;     :value "${brightness.level}"
+                    ;     :onschange "bash -c \"DEVICE=\$(brightnessctl --list | grep backlight | awk '{print \$2}' | head -n 1 | tr -d \"'\"); if [ -n \\\"\$DEVICE\\\" ]; then if [ \\\"{}\\\" = \\\"up\\\" ]; then brightnessctl -d \\\"\$DEVICE\\\" set +10%; elif [ \\\"{}\\\" = \\\"down\\\" ]; then brightnessctl -d \\\"\$DEVICE\\\" set 10%-; fi; else echo 'No backlight device found'; fi\" && scripts/brightness osd &"
+                    ;     ; :onchange "light -S {}"
+                    ;     :hexpand true
+                    ;     :class "sidebar-quicktoggle-slider"
+                    ; )
                     
                   )
                 )
@@ -330,7 +331,7 @@
                             (label :xalign 0 :hexpand true :wrap true
                               :class "bar-txt-small bar-txt-sub"
                               :text {app['body']}
-                              ; :limit-width 45
+                              :limit-width 45
                             )
                           )
                         )
@@ -494,7 +495,7 @@
   :stacking "fg"
   :namespace "eww"
   :geometry (geometry
-    ; :height "100%"
+    :height "100%"
     :anchor "top right"
   )
   (sideright_widget)

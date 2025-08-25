@@ -8,8 +8,6 @@ CMake
 Code - OSS
 Discord
 Dolphin
-Electron 27
-Electron 35
 Electron 36
 Electron 37
 Emoji Selector
@@ -21,8 +19,6 @@ Fcitx 5 Configuration
 Fcitx 5 Migration Wizard
 Firefox
 Firewall
-FontForge
-Gammastep Indicator
 Gapless
 Google Chrome
 Gwenview

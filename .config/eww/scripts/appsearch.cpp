@@ -1,5 +1,5 @@
 #include <array>
-#include <filesystem>
+// #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -7,7 +7,8 @@
 #include <string>
 #include <vector>
 
-#include "nlohmann/json.hpp" //missing library :< (noneisreal)
+
+#include "nlohmann/json.hpp" 
 using namespace std;
 using json = nlohmann::json;
 
@@ -142,7 +143,7 @@ void tryAppSearch()
         }
 
         
-        2if (i < entryNames.size() - 1) cout << ',';
+        if (i < entryNames.size() - 1) cout << ',';
     }
     cout << ']' << endl;
     if (updateInfo) 
@@ -193,7 +194,7 @@ void commandOnly()
     if (updateInfo) 
     {
         string updateCmd =
-            "eww update "
+            "eww update ";
             json fallback = 
             {
                 {"name", searchTerm},
@@ -204,8 +205,7 @@ void commandOnly()
             //"winsearch_actions='{\"name\":\"'\"" +
             searchTerm +
             "\"'\",\"icon\":\"images/svg/dark/"
-            "protocol.svg\",\"exec\":\"" +
-            searchTerm + "\"}'";
+            "protocol.svg\",\"exec\":\"" + searchTerm + "\"}'";
         exec(&updateCmd[0]);
         exec("eww update winsearch_actions_type='Run command'");
     }

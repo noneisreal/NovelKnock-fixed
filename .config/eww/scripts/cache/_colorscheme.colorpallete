@@ -1,12 +1,12 @@
-// Auto generated color theme for image at: https://i1.hdslb.com/bfs/archive/c8a6cd7a6ba85a3fb7a416f3f53ab9f739c00e26.jpg@320w.webp
-$colorbarbg: #5b2709;
-$colorbg: rgba(91,39,9,0.75);
-$colortext: #fbc7a9;
-$color0: #ab7759;
-$color1: #bf8b6d;
-$color2: #976345;
-$color3: #d39f81;
-$color4: #834f31;
-$color5: #e7b395;
-$color6: #6f3b1d;
-$color7: #fbc7a9;
+// Auto generated color theme for image at: https://i.ytimg.com/vi/MxXM3H2VGy4/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDtH66DrE7F07p9FM_3K7HwqrHSdA
+$colorbarbg: #8b898a;
+$colorbg: rgba(139,137,138,0.75);
+$colortext: #ffffff;
+$color0: #dbd9da;
+$color1: #efedee;
+$color2: #c7c5c6;
+$color3: #ffffff;
+$color4: #b3b1b2;
+$color5: #ffffff;
+$color6: #9f9d9e;
+$color7: #ffffff;

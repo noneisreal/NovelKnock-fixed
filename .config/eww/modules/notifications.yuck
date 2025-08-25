@@ -53,9 +53,8 @@
           )
           (label :xalign 0
             :class "bar-txt-small bar-txt-norm"
-            ; :text "${ arraylength(notifications) == 'null' || arraylength(notifications) == '' || arraylength(notifications) > 0 ? notifications[0]['body'] : ''}"
             :text "${arraylength(notifications) > 0 ? notifications[0]['body'] : ''}"
-            :limit-width 45
+            :limit-width 15
           )
         )
       )
@@ -63,3 +62,5 @@
   )
 )
 ; when fixing this i don't remember how to compile file cpp, i mean notifget.cpp to assembly by the CL gcc
+; ahhhhhhhhhhh blyat, i hate rust
+

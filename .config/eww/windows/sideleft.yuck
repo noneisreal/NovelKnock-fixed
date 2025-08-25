@@ -37,8 +37,15 @@
         :onclick "eww update mousemode=$((mousemode ? 1 - mousemode : 0)) &"
         (box :space-evenly false :spacing 15
           :class "dashboard-settings-option-group dashboard-settings-option-group-pad"
-          (label :xalign 0 :hexpand true :class "dashboard-settings-txt bar-txt-norm" :text "Scroll\\\naccessibility")
-          (label :class "sidebar-optn-icon bar-txt-norm" :text "${mousemode == 1 ? 'mouse' : ''}")
+          (label 
+            :xalign 0 
+            :hexpand true 
+            :class "dashboard-settings-txt bar-txt-norm" 
+            :text "Scroll\\\naccessibility")
+          (label 
+            :class "sidebar-optn-icon bar-txt-norm" 
+            :text "${mousemode == 1 ? 'mouse' : ''}"
+          )
         )
       )
     )
@@ -50,8 +57,12 @@
         :onclick "hyprctl keyword decoration:blur:enabled ${1 - hyprjson.blur} && scripts/hyprsettings tickle &"
         (box :space-evenly false :spacing 10
           :class "dashboard-settings-option-group-left dashboard-settings-option-group-pad"
-          (label :class "sidebar-optn-icon bar-txt-norm" :text "blur_on")
-          (settings-option-binary :name "Enable blur" :value {hyprjson.blur})
+          (label 
+            :class "sidebar-optn-icon bar-txt-norm" 
+            :text "blur_on")
+          (settings-option-binary 
+            :name "Enable blur" 
+            :value {hyprjson.blur})
         )
       )
       (eventbox
@@ -200,7 +211,7 @@
       :space-evenly false
       :halign "end"
       :style "
-        ${open_sideleft ? ANIM_ENTER[anim_set] : ANIM_EXIT[anim_set]}
+        ${open_sideleft ? ANIM_ENTER[anim_set] : ANIM_EXIT[anim_set]};
         ${open_sideleft ? '' : 'margin-left: -594px;'}
       "
       (box
@@ -235,7 +246,6 @@
                 :class "bar-txt-hugeass bar-txt-norm"
                 :text "Knock"
                 :style "color: ${mcover.materialcolor.onPrimaryContainer == 'null' || mcover.materialcolor.onPrimaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.onPrimaryContainer};"
-                ; :style "color: ${mcover.materialcolor.onPrimaryContainer == 'null' || mcover.materialcolor.onPrimaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.onPrimaryContainer};"
               )
               (label :xalign 1
                 :class "bar-txt-small bar-txt-norm"
@@ -302,27 +312,14 @@
                       (label
                         :class "bar-icon-material sidebar-music-device"
                         :text "${volume.device == 'Headphones' ? '' : volume.device == 'Speakers' ? '' : ''}" 
-                        ; :style "
-                        ; color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
-                        ; z-index 10;
-                        ; "
                         :style "
-                        color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
-                        
+                        ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : ('color: ' + mcover.materialcolor.onPrimary + ';')};
                         "
-                        ; need to change z-index (but it works btw)
                       )
                       (label
-                        ; :style "
-                        ;   color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
-                        ;   z-index 10;
-                        ;   "
-                        :style "
-                          color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
-                          
-                          "
-                          ; z-index is not support in eww but it works btw, idk what are GTK+ thinking
-                          ; those thinking was kinda weired but yeah, it works for time when can't fix the colorgen
+                      :style "
+                        ${mcover.materialcolor.onPrimary == 'null' ? '' : ('color: ' + mcover.materialcolor.onPrimary + ';')};
+                      "
                         :text "${volume.device == '' ? 'Unknown' : volume.device}"
                       )
                     )
@@ -355,11 +352,9 @@
                       :valign "center"
                       :class "sidebar-music-playbtn"
                       :style "
-                        background-color: ${mcover.materialcolor.primary == 'null' || mcover.materialcolor.primary == '' ? '#b5c4ff' : mcover.materialcolor.primary};
-                        color: ${mcover.materialcolor.onPrimary == 'null' || mcover.materialcolor.onPrimary == '' ? '#b5c4ff' : mcover.materialcolor.onPrimary};
-
-                        "
-                      ; here too, idk what is it thinking, i don't like this compiler so much 
+                      ${mcover.materialcolor.primary == 'null' ? '' : 'background-color: ${mcover.materialcolor.primary};'}
+                      ${mcover.materialcolor.onPrimary == 'null' ? '' : 'color: ${mcover.materialcolor.onPrimary};'}
+                      "
                       :onclick "playerctl play-pause"
                       "${mplay == 'Playing' ? 'pause' : 'play_arrow'}"
                     )
@@ -382,7 +377,8 @@
                         :style "
                           background-image: linear-gradient(to right,
                             ${mcover.materialcolor.onPrimaryContainer == 'null' || mcover.materialcolor.onPrimaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.onPrimaryContainer} 0%,
-                            ${mcover.materialcolor.onPrimaryContainer == 'null' || mcover.materialcolor.onPrimaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.onPrimaryContainer} ${music.position == '' ? 0 : music.position}%,
+                            ${mcover.materialcolor.onPrimaryContainer == 'null' || mcover.materialcolor.onPrimaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.onPrimaryContainer} 
+                            ${music.position == '' ? 0 : music.position}%,
                             rgba(200, 200, 200, 0.6) ${music.position == '' ? 0 : music.position}%,
                             rgba(200, 200, 200, 0.6) 100%
                           );

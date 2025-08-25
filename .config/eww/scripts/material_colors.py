@@ -37,7 +37,7 @@ try:
         colorstr = sys.argv[2]
         newtheme = themeFromSourceColor(argbFromHex(colorstr))
     else:
-        wallpaper_path = str(Path.home() / '.config/eww/images/wallpaper/wallpaper.png')
+        wallpaper_path = str(Path.home() / '.config/eww/images/wallpaper/wallpaper')
         if not Path(wallpaper_path).is_file():
             raise FileNotFoundError(f"Wallpaper not found: {wallpaper_path}")
         img = Image.open(wallpaper_path)

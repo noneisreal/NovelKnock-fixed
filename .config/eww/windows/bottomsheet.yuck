@@ -59,7 +59,7 @@
             :valign "center"
             :style "
             min-height: ${round(colheight / 3.5, 0)}px;
-            background-color: ${colheight == 0 ? 'transparent' : 'mix(${(mcover.color.colors.color3 == 'null' ? "#b5c4ff" : mcover.color.colors.color3)}, rgba(220, 220, 220, 0.1), 0.2)'};
+            background-color: ${colheight == 0 ? 'transparent' : 'mix(${(mcover.color.colors.color3 == 'null' ? '#b5c4ff' : mcover.color.colors.color3)}, rgba(220, 220, 220, 0.1), 0.2)'};
             "
           )
         )

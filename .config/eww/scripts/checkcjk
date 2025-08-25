@@ -21,4 +21,4 @@ if check_cjk(input):
 else:
   print("The string does not contain CJK characters.")
 
-  ・インザナイト
+  # ・インザナイト

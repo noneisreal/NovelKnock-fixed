@@ -1,18 +1,35 @@
 #!/usr/bin/env bash
 plugged=0
 
-swaybg -i images/wallpaper/wallpaper-cultured &
+# swaybg -i images/wallpaper/wallpaper-cultured &
 
 while true; do
 	STATE=$(cat /sys/class/power_supply/BATT/status)
+    # STATE=$(cat /tmp/fakeBAT0/status)
+
+    ################ Version with nsfw sound ##############
+
+    # if [[ "$STATE" = "Charging" ]]; then 
+    #     if [ "$plugged" -eq "0" ]; then 
+    #         plugged=1
+    #         notify-send 'Aghh~~~~'
+    #         paplay ~/.config/eww/scripts/supersecretsettings/notgood.mp3
+    #     fi
+    # else 
+    #     plugged=0
+    # fi      
+	# sleep 1
+
+    ############### Version with sfw sound (default)########
     if [[ "$STATE" = "Charging" ]]; then 
         if [ "$plugged" -eq "0" ]; then 
             plugged=1
-            notify-send 'Aghh~~~~'
-            play scripts/supersecretsettings/culture.mp3
+            notify-send 'Uhuh?'
+            paplay ~/.config/eww/scripts/supersecretsettings/culture.mp3
         fi
     else 
         plugged=0
-    fi      
-	sleep 1
+    fi
+    sleep 1
+
 done

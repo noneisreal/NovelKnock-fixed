@@ -26,7 +26,10 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 ## Credits
 
 - Huge thanks to `end-4` for the original inspiration and visual magic.
+- And thanks to [`soramanew`](https://github.com/caelestia-dots/shell) for the quickshell, it helps me a lot about appear notifications
 - Praise be to Jesus for the strength to fix it
 
->i don't fix eww anymore, it still having bugs
->don't and never use it, unless you want a lag bar and will harm itself
+>i still fix eww, it still having bugs
+>don't use it, unless you want a lag bar and will harm itself sometimes
+
+<i> And about the project folder in repo, that is from end-4, but also not working so i used other solution to appear notifications, you shouldn't use or compile it</i>

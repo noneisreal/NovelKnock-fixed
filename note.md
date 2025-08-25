@@ -9,6 +9,8 @@ modules need for eww
 - PIL
 - cargo
 - gcc
+- gojq
+- stb
 
 note:
 - recommmend play music by app outside

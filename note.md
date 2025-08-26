@@ -10,7 +10,6 @@ modules need for eww
 - cargo
 - gcc
 - gojq
-- stb
 
 note:
 - recommmend play music by app outside

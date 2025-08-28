@@ -33,12 +33,12 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 >    - Use the bottom `reload hyprland config and eww` in side left
 >    - Reload your tab play music 
 >    - if the problem still, make a issue to report
-> - Currently, Rofi is used as a launcher. \
-> - EWW's built-in launcher does not support icons properly \
-> - It's recommend play music by app outside \
-> - If still want play on browser, recommend zen-browser, firefox, or firefox-based \
-> - Not recommend chrome without extension Plasma Integation unless you want the eww show the thumbnail and artist etc \
-> - screen lock function still not fixed yet - this function will be fixed in the future \
+> - Currently, Rofi is used as a launcher. 
+> - EWW's built-in launcher does not support icons properly 
+> - It's recommend play music by app outside 
+> - If still want play on browser, recommend zen-browser, firefox, or firefox-based 
+> - Not recommend chrome without extension Plasma Integation unless you want the eww show the thumbnail and artist etc 
+> - screen lock function still not fixed yet - this function will be fixed in the future 
 > - And if eww sometimes lag, please using shotcuts `Ctrl + Super + R` to all pkill and reload again
 
 >[!NOTE]

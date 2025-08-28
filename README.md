@@ -20,7 +20,7 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 - Added compatibility with non-end-4 users (aka humans)
 - Disable nsfw art
 - Support playing music on google chrome by extension Plasma Integation
-- Not working
+- Not working fluently
 
 
 ## Credits

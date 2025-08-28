@@ -1,12 +1,14 @@
 ## Contributing
 - Contributing is welcome
-- For question or bug report, please make an issue on Github. That is the good way to discuss before submiting a PR
-- If you want to make changes, please make fork of this reposity and create a pull request 
+- For question or bug report, please make an issue on Github. That is the good way to discuss before submitting a PR
+- If you want to make changes, please make fork of this repository and create a pull request 
 ## Setting
 - You need **an Arch(-based) system**
 - And run this to install all things necessary for working
 ```
-yay -S stb nlohmann-json wal python-pywal clangd backlight jq gojq python-pillow cargo gcc python-material-color-utilities-git cava quickshell-git eww gtklock rofi
+yay -S stb nlohmann-json wal python-pywal clangd backlight jq gojq \
+python-pillow cargo gcc python-material-color-utilities-git cava \
+quickshell-git eww gtklock rofi
 ```
 - Then copy all files in `NovelKnock-dots-hyprland-fixed/.config` to your `$HOME/.config` folder, do it with `./local` files
 - Important: **all this changes need to do when not already login into hyprland**

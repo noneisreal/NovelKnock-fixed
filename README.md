@@ -39,7 +39,7 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 > If still want play on browser, recommend zen-browser, firefox, or firefox-based \
 > Not recommend chrome without extension Plasma Integation unless you want the eww show the thumbnail and artist etc \
 > screen lock function still not fixed yet - this function will be fixed in the future \
-> And if eww sometimes lag, please using shotcuts `Ctrl + Super + R` to all pkill and reload again \
+> And if eww sometimes lag, please using shotcuts `Ctrl + Super + R` to all pkill and reload again
 
 >[!NOTE]
 > And about the folder "projects" folder in repo, that is from end-4, but also not working so i used other solution to appear notifications, you shouldn't use or compile it

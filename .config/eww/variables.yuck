@@ -170,9 +170,9 @@
 (defpoll diskfree :interval "10m" `df -h --output=avail / | awk 'NR==2{print $1}'`)
 (defpoll disksize :interval "10m" `df -h --output=size / | awk 'NR==2{print $1}'`)
 (deflisten cpuname `cat /proc/cpuinfo | grep 'model name' | awk -F: '{print $2}' | head -n 1`)
-; (defpoll waifu :initial `{"path": "eww_covers/waifu", "size": [1080, 1080]}` :interval "5m" `python3 scripts/waifu-get.py waifu`)
+(defpoll waifu :initial `{"path": "eww_covers/waifu", "size": [1080, 1080]}` :interval "5m" `python3 scripts/waifu-get.py waifu`)
 ; just for when debug
-(defpoll waifu :initial `{"path": "eww_covers/fallback.png", "size": [1080, 1080]}` :interval "5m" `echo '{"path": "eww_covers/fallback.png", "size": [1080, 1080]}'`)
+; (defpoll waifu :initial `{"path": "eww_covers/fallback.png", "size": [1080, 1080]}` :interval "5m" `echo '{"path": "eww_covers/fallback.png", "size": [1080, 1080]}'`)
 (defpoll calendar :initial "[]" :interval "15m" `eww update monthshift=0 && eww update calendartitle="$(date '+%B %Y')" && scripts/calendarlayout`)
 
 

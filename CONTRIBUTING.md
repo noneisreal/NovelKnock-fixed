@@ -6,7 +6,7 @@
 - You need **an Arch(-based) system**
 - And run this to install all things necessary for working
 ```
-yay -S stb nlohmann-json wal python-pywal clangd backlight jq gojq \
+yay -S stb nlohmann-json python-pywal16 clangd brightnessctl jq gojq \
 python-pillow cargo gcc python-material-color-utilities-git cava \
 quickshell-git eww gtklock rofi
 ```

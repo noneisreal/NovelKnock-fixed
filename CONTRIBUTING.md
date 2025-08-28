@@ -5,7 +5,7 @@
 ## Setting
 - You need **an Arch(-based) system**
 - And run this to install all things necessary for working
-```
+```bash
 yay -S stb nlohmann-json python-pywal16 clangd brightnessctl jq gojq \
 python-pillow cargo gcc python-material-color-utilities-git cava \
 quickshell-git eww gtklock rofi
@@ -17,4 +17,6 @@ quickshell-git eww gtklock rofi
 
 ## Running
 - Logout your session and login into hyprland as the window manager
+## Require
+- Tested on a Optiplex 7020 with i5-4570, 8 GB of RAM
 

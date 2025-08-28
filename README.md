@@ -28,7 +28,7 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 - Huge thanks to `end-4` for the original inspiration and visual magic.
 - And thanks to [`soramanew`](https://github.com/caelestia-dots/shell) for the quickshell, it helps me a lot about appear notifications
 - Praise be to Jesus for the strength to fix it
->[!TIPS]
+>[!TIP]
 > If media thumbnail or medata is missing, try all this option
 >    - Use the bottom `reload hyprland config and eww` in side left
 >    - Reload your tab play music 

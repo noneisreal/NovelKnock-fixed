@@ -275,20 +275,46 @@
               )
             )
             (box ; Notifications
-              :space-evenly false :orientation "v"
+              :space-evenly false 
+              :orientation "v"
               :vexpand true
               (box ; The text
-                :space-evenly false
-                :height {BAR_HEIGHT} :width 400
-                :class "sidebar-section-title"
-                (label :xalign 0
-                  :class "bar-icon-material-hugeass sidebar-section-title-icon"
-                  :text "Notifications"
-                )
-                (label :xalign 0
-                  :hexpand true
-                  :class "bar-txt-hugeass sidebar-section-title-icon"
-                  :text "Notifications"
+                  :space-evenly false
+                  :height {BAR_HEIGHT} 
+                  :width 400
+                  :class "sidebar-section-title"
+                  (label :xalign 0
+                    :class "bar-icon-material-hugeass sidebar-section-title-icon"
+                    :text "Notifications"
+                  )
+                  (label :xalign 0
+                    :hexpand true
+                    :class "bar-txt-hugeass sidebar-section-title-icon"
+                    :text "Notifications"
+                  )
+                  (eventbox
+                    :hexpand true
+                    :onclick "~/.config/eww/scripts/clear_notifications"
+                    :class "sidebar-notif-action"
+                    (box
+                      :height {BAR_HEIGHT} 
+                      :vexpand true
+                      :width 100
+                      :space-evenly false
+                      :halign "end"
+                    :orientation "h"
+                      (label
+                        :xalign 0
+                        :class "bar-icon-material-hugeass sidebar-section-title-icon"
+                        :text "clear_all"
+                      )
+                      (label 
+                        :xalign 0
+                        :class "bar-txt-hugeass sidebar-section-title-icon sidebar-section-title-icon"
+                        :hexpand true
+                        :text "Clear"
+                    )
+                  )
                 )
               )
               (scroll
@@ -453,7 +479,8 @@
                     :style "margin: 5px 0;"
                     (box
                       :orientation "v"
-                      :space-evenly false :spacing 10
+                      :space-evenly false 
+                      :spacing 10
                       (for task in todolist
                         (box
                           :orientation "h"
@@ -480,7 +507,7 @@
                 )
               )
               (box
-                :height 20
+                :height 30
               )
             )
           )

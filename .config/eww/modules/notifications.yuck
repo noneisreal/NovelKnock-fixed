@@ -51,11 +51,11 @@
               :limit-width 8
             )
           )
-          (label :xalign 0
-            :class "bar-txt-small bar-txt-norm"
-            :text "${arraylength(notifications) > 0 ? notifications[0]['body'] : ''}"
-            :limit-width 15
-          )
+          ; (label :xalign 0
+          ;   :class "bar-txt-small bar-txt-norm"
+          ;   :text "${arraylength(notifications) > 0 ? notifications[0]['body'] : ''}"
+          ;   :limit-width 15
+          ; )
         )
       )
     )

@@ -83,7 +83,7 @@
 (defvar flash_notif false)
 (defvar show_waifu false)
 (defvar waifu_status "")
-; (defvar notifications [])
+
 
 ; Open/close/hover state
 (defvar hover_music false)

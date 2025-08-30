@@ -2,6 +2,7 @@ import qs.components
 import qs.services
 import qs.config
 import QtQuick
+import Quickshell
 
 Item {
     implicitWidth: timeText.implicitWidth + Appearance.padding.large * 2

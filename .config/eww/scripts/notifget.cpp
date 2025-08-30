@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <sstream>
 
 #include "nlohmann/json.hpp"
 using namespace std;
@@ -22,15 +23,19 @@ bool readJsonlFile(const string& name, json& allNotifs) {
         try {
             json notification = json::parse(line);
             if (!notification.contains("app") || !notification.contains("summary") ||
-                !notification.contains("body") || !notification.contains("time")) {
+                !notification.contains("body") || !notification.contains("time") ||
+                !notification.contains("timestamp")) {
                 cerr << "Skipping invalid notification: missing required fields\n";
                 continue;
             }
+            // Extract just HH:MM from time if it's a full date-time string
+            string timeStr = notification["time"].get<string>();
+            string formattedTime = timeStr.substr(timeStr.find_last_of(" ") + 1); // Get last part (HH:MM)
             json formatted = {
                 {"app_name", notification["app"]},
                 {"summary", notification["summary"]},
                 {"body", notification["body"]},
-                {"time", notification["time"]}
+                {"time", formattedTime}
             };
             allNotifs.push_back(formatted);
         } catch (const json::parse_error& e) {

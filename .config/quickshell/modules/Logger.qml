@@ -25,8 +25,8 @@ QtObject {
     }
 
     // Auto-delete settings
-    property int maxAgeMinutes: 30  // Delete notifications older than 30 minutes (adjustable to 12)
-    property int maxEntries: 50     // Maximum number of notifications to keep
+    property int maxAgeMinutes: 1
+    property int maxEntries: 50    
 
     // Function to append and prune notifications
     function appendNotification(notification) {
@@ -37,49 +37,59 @@ QtObject {
 
         console.log("Processing notification:", notification.appName, notification.summary)
         var date = new Date()
-        var formattedTime = date.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+        var formattedTime = date.toLocaleString('en-GB', { hour: '2-digit', minute: '2-digit' }) // Time only (HH:MM)
+        var timestamp = Math.floor(date.getTime() / 1000) // Unix timestamp in seconds
         var entry = {
             app: notification.appName || "Unknown",
             summary: notification.summary || "",
             body: notification.body || "",
-            time: formattedTime
+            time: formattedTime,
+            timestamp: timestamp
         }
 
         var entryStr = JSON.stringify(entry) + "\n"
         var currentContent = logFileHandle.text() || ""
         var lines = currentContent.split("\n").filter(line => line.trim() !== "")
         lines.push(entryStr)
-        pruneNotifications(lines)
+        lines = pruneAndSortNotifications(lines) // Use the returned sorted list
         logFileHandle.setText(lines.join("\n"))
+
     }
 
-    // Function to prune old or excess notifications
-    function pruneNotifications(lines) {
+    // Function to prune, sort, and limit notifications
+    function pruneAndSortNotifications(lines) {
         var now = new Date()
-        var cutoff = new Date(now.getTime() - maxAgeMinutes * 60 * 1000) // Convert minutes to milliseconds
-        lines = lines.filter(line => {
+        var cutoffTimestamp = Math.floor((now.getTime() - maxAgeMinutes * 60 * 1000) / 1000)
+
+        // Filter
+        var filtered = lines.filter(line => {
             try {
                 var entry = JSON.parse(line)
-                if (entry.time) {
-                    var entryDate = new Date(entry.time)
-                    return entryDate >= cutoff && lines.length <= maxEntries
-                }
-                return true
+                return entry.timestamp ? entry.timestamp >= cutoffTimestamp : true
             } catch (e) {
                 console.warn("Failed to parse line:", line, e)
                 return false
             }
         })
 
-        // If still over maxEntries after age filter, keep the newest ones
-        if (lines.length > maxEntries) {
-            lines.sort((a, b) => {
-                var aDate = JSON.parse(a).time ? new Date(JSON.parse(a).time) : new Date(0)
-                var bDate = JSON.parse(b).time ? new Date(JSON.parse(b).time) : new Date(0)
-                return bDate - aDate
-            })
-            lines = lines.slice(0, maxEntries)
+        // Sort newest first
+        filtered.sort((a, b) => {
+            try {
+                var aTime = JSON.parse(a).timestamp || 0
+                var bTime = JSON.parse(b).timestamp || 0
+                return bTime - aTime
+            } catch (e) {
+                console.warn("Sorting error:", e)
+                return 0
+            }
+        })
+
+        // Limit entries
+        if (filtered.length > maxEntries) {
+            filtered = filtered.slice(0, maxEntries)
         }
+
+        return filtered
     }
 
     // Consolidated Component.onCompleted
@@ -87,12 +97,11 @@ QtObject {
         console.log("FileView path:", logFileHandle.path)
         console.log("FileView exists:", logFileHandle.exists)
         var date = new Date()
-        var formattedTime = date.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
-        var startupEntry = JSON.stringify({ app: "Logger", summary: "Startup", body: "Logger initialized", time: formattedTime }) + "\n"
+        var formattedTime = date.toLocaleString('en-GB', { hour: '2-digit', minute: '2-digit' }) // Time only (HH:MM)
+        var timestamp = Math.floor(date.getTime() / 1000) // Unix timestamp in seconds
         var currentContent = logFileHandle.text() || ""
         var lines = currentContent.split("\n").filter(line => line.trim() !== "")
-        lines.push(startupEntry)
-        pruneNotifications(lines)
+        lines = pruneAndSortNotifications(lines) // Sort and prune initial content
         if (logFileHandle.setText(lines.join("\n"))) {
             console.log("Wrote startup entry to:", logFile)
         } else {
@@ -137,7 +146,7 @@ QtObject {
                 console.log("Checking tracked notifications, count:", notificationServer.trackedNotifications.count || "undefined")
                 var currentContent = logFileHandle.text() || ""
                 var lines = currentContent.split("\n").filter(line => line.trim() !== "")
-                pruneNotifications(lines)
+                lines = pruneAndSortNotifications(lines)
                 logFileHandle.setText(lines.join("\n"))
             }
         }

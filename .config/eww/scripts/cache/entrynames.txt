@@ -20,6 +20,7 @@ Fcitx 5 Migration Wizard
 Firefox
 Firewall
 Gapless
+GitHub Desktop
 Google Chrome
 Gwenview
 Hardware Locality lstopo
@@ -53,7 +54,6 @@ Qt V4L2 test Utility
 Qt V4L2 video capture utility
 Qt Widgets Designer
 Reflector Simple
-Remote Viewer
 Rofi
 Rofi Theme Selector
 Screenshot Helper
@@ -67,7 +67,6 @@ Text Editor
 Upscayl
 VLC media player
 Vim
-Virtual Machine Manager
 WPS 2019
 WPS PDF
 WPS Presentation

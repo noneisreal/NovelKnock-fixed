@@ -43,3 +43,8 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 
 >[!NOTE]
 > And about the folder "projects" folder in repo, that is from end-4, but also not working so i used other solution to appear notifications, you shouldn't use or compile it
+
+# .extra  
+Bonus pack: all wallpapers I used during the time of this config.  
+Just for anyone who found this repo :)  
+

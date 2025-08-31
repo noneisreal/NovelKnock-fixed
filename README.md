@@ -49,7 +49,6 @@ Bonus pack: all wallpapers I used during the time of this config.
 Just for anyone who found this repo :)  
 <details>
     <summary>Projects structure (Click to expand)</summary>
-    `
     .
     ├── .config
     │   ├── eww
@@ -597,5 +596,4 @@ Just for anyone who found this repo :)
     │   └── README.md
     └── README.md
     80 directories, 467 files
-    `
 </details>

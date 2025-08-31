@@ -1,6 +1,8 @@
 ![Built for Hyprland](https://img.shields.io/badge/Built%20for-Hyprland-blueviolet?style=flat-square)
 ![Based on end-4](https://img.shields.io/badge/Based_on-end--4-informational?style=flat-square)
 ![EndeavourOS Tested](https://img.shields.io/badge/Tested%20on-EndeavourOS-blue?style=flat-square&logo=archlinux)
+![Files](https://img.shields.io/badge/files-468-blue?style=flat-square)
+![Directories](https://img.shields.io/badge/directories-80-orange?style=flat-square)
 
 # Fixed "NovelKnock" Dotfiles (Hyprland Edition)
 
@@ -47,7 +49,3 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 # .extra  
 Bonus pack: all wallpapers I used during the time of this config.  
 Just for anyone who found this repo :)  
-<details>
-    <summary>Projects structure (Click to expand)</summary>
-    See [TREE.md](TREE.md) for full structure 
-</details>

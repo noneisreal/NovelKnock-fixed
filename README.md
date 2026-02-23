@@ -12,8 +12,8 @@ with minor (and major) tweaks to actually boot and behave nicely.
 Tested on EndeavourOS with Hyprland.
 
 > [!WARNING]
-> Status: Dead / Legacy 
-> These dotfiles were tested on Hyprland v0.50.0. Since then, they have become outdated. Not recommended for daily use unless you enjoy debugging "spaghetti code" or want to help fix bugs.
+> - Status: Dead / Legacy 
+> - These dotfiles were tested on Hyprland v0.50.0. Since then, they have become outdated. Not recommended for daily use unless you enjoy debugging "spaghetti code" or want to help fix bugs.
 
 ## Why?
 

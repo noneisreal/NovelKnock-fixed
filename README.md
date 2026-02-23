@@ -11,6 +11,10 @@ with minor (and major) tweaks to actually boot and behave nicely.
 
 Tested on EndeavourOS with Hyprland.
 
+> [!WARNING]
+> Status: Dead / Legacy 
+> These dotfiles were tested on Hyprland v0.50.0. Since then, they have become outdated. Not recommended for daily use unless you enjoy debugging "spaghetti code" or want to help fix bugs.
+
 ## Why?
 
 Because the original configs look gorgeous but are half-broken, and I'm a fan of both aesthetics and sanity.
@@ -29,7 +33,7 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 
 - Huge thanks to `end-4` for the original inspiration and visual magic.
 - And thanks to [`soramanew`](https://github.com/caelestia-dots/shell) for the quickshell, it helps me a lot about appear notifications
-- Praise be to Jesus for the strength to fix it
+
 >[!TIP]
 > - If media thumbnail or medata is missing, try all this option
 >    - Use the bottom `reload hyprland config and eww` in side left
@@ -47,5 +51,4 @@ So I fixed the NovelKnock. (or i wanted to do something in this summer)
 > And about the folder "projects" folder in repo, that is from end-4, but also not working so i used other solution to appear notifications, you shouldn't use or compile it
 
 # .extra  
-Bonus pack: all wallpapers I used during the time of this config.  
-Just for anyone who found this repo :)  
+Bonus pack: all wallpapers I used during the time of this config.

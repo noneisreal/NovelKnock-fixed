@@ -362,38 +362,38 @@
                           )
                         )
                         ; (label :xalign 0
-                          ;   :hexpand true
-                          ;   :width 175
-                          ;   :class "sidebar-notif-appname"
-                          ;   :text {app.name}
-                          ;   :wrap true
+                        ;     :hexpand true
+                        ;     :width 175
+                        ;     :class "sidebar-notif-appname"
+                        ;     :text {app.name}
+                        ;     :wrap true
                         ; )
                         ; (box
-                          ;   :space-evenly false :orientation "h"
-                          ;   :spacing 10
-                          ;   (box
-                            ;     :class "sidebar-notif-decor-left"
-                            ;     :width 5
-                          ;   )
-                          ;   (box
-                            ;     :space-evenly false :orientation "v"
-                            ;     :spacing 10
-                            ;     (for message in {app.content}
-                              ;       (box
-                                ;         :space-evenly false :orientation "v"
-                                ;         (label :xalign 0
-                                  ;           :class "sidebar-notif-summary"
-                                  ;           :text {message[0]}
-                                  ;           ; :limit-width 60
-                                ;         )
-                                ;         (label :xalign 0
-                                  ;           :class "sidebar-notif-body"
-                                  ;           :text {message[1]}
-                                  ;           ; :limit-width 60
-                                ;         )
-                              ;       )
-                            ;     )
-                          ;   )
+                        ;     :space-evenly false :orientation "h"
+                        ;     :spacing 10
+                        ;     (box
+                        ;         :class "sidebar-notif-decor-left"
+                        ;         :width 5
+                        ;     )
+                        ;     (box
+                        ;         :space-evenly false :orientation "v"
+                        ;         :spacing 10
+                        ;         (for message in {app.content}
+                        ;             (box
+                        ;                 :space-evenly false :orientation "v"
+                        ;                 (label :xalign 0
+                        ;                     :class "sidebar-notif-summary"
+                        ;                     :text {message[0]}
+                        ;                     ; :limit-width 60
+                        ;                 )
+                        ;                 (label :xalign 0
+                        ;                     :class "sidebar-notif-body"
+                        ;                     :text {message[1]}
+                        ;                     ; :limit-width 60
+                        ;                 )
+                        ;             )
+                        ;         )
+                        ;     )
                         ; )
                       )
                     )

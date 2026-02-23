@@ -16,9 +16,6 @@
       :style "min-height: 300px;"
       (box ; Media cover background (behind blur)
         :class "bottomsheet-back-bg"
-        ; :style "
-        ; background-image: url('${mcover.image}');
-        ; "
       )
     )
   )
@@ -28,7 +25,6 @@
   (eventbox
     :onhoverlost {pinned_bottomsheet ? '' : 'scripts/toggle-bottomsheet.sh --close &'}
     :style "background-color: $(mcover.materialcolor.secondaryContainerRgba == 'null' || mcover.material.secondaryContainerRgba == '' ? coloraccent : mcover.materialcolor.secondaryContainerRgba)"
-    ; :style "background-color: ${mcover.materialcolor.secondaryContainerRgba == 'null' ? "rgba(0,0,0,0.5)" : mcover.materialcolor.secondaryContainerRgba}"
     (box
       :orientation "v"
       :space-evenly false
@@ -76,7 +72,6 @@
           :space-evenly false :spacing -35
           :class "bottomsheet-bg"
           :style "color: ${mcover.materialcolor.secondaryContainerRgba == 'null' || mcover.materialcolor.secondaryContainerRgba == '' ? coloraccent : mcover.materialcolor.secondaryContainerRgba};"
-	        ; :style "background-color: ${mcover.materialcolor.secondaryContainerRgba == 'null' ? "rgba(0,0,0,0.5)" : mcover.materialcolor.secondaryContainerRgba}"
 	      (box ; Pin button
             :orientation "v"
             :spacing 15
@@ -90,10 +85,6 @@
               ${mcover.materialcolor.secondaryContainer == 'null' ? '' : 'background-color: ${mcover.materialcolor.secondaryContainer};'}
               ${mcover.materialcolor.onSecondaryContainer == 'null' ? '' : 'color: ${mcover.materialcolor.onSecondaryContainer};'}
               "
-              ; :style "
-                ; ${mcover.material.onSecondaryContainer == 'null' ? '' : 'background-color: ${mcover.materialcolor.onSecondaryContainer};'}
-                ; ${mcover.material.secondayContainer == 'null' ? '' : 'color: ${mcover.materialcolor.secondaryContainer};'}
-              ; "
               "keyboard_double_arrow_down"
             )
             (button
@@ -104,10 +95,6 @@
               ${mcover.materialcolor.secondaryContainer == 'null' ? '' : 'background-color: ${mcover.materialcolor.secondaryContainer};'}
               ${mcover.materialcolor.onSecondaryContainer == 'null' ? '' : 'color: ${mcover.materialcolor.onSecondaryContainer};'}
               "
-              ; :style "
-                ; ${mcover.material.onSecondaryContainer == 'null' ? '' : 'background-color: ${mcover.materialcolor.onSecondaryContainer};'}
-                ; ${mcover.material.secondayContainer == 'null' ? '' : 'color: ${mcover.materialcolor.secondaryContainer};'}
-              ; "
               "push_pin"
             )
           )
@@ -187,7 +174,6 @@
                   (image
                     :class "bottomsheet-mixer-app-icon"
                     :style "${mcover.materialcolor.secondaryContainer == 'null' ? '' : 'background-color: ${mcover.materialcolor.secondaryContainer};'}"
-                    ; :style "color: ${mcover.materialcolor.secondaryContainer == 'null' || mcover.materialcolor.secondaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.secondaryContainer};"
                     :path {app.icon}
                     :image-width 30
                     :image-height 30
@@ -208,12 +194,10 @@
                           :orientation "h"
                           :class "bottomsheet-mixer-app-serial"
                           :style "${mcover.materialcolor.secondaryContainer == 'null' ? '' : 'background-color: ${mcover.materialcolor.secondaryContainer};'}"
-                          ; :style "color: ${mcover.materialcolor.secondaryContainer == 'null' || mcover.materialcolor.secondaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.secondaryContainer};"
                           (label
                             :xalign 0 :hexpand true
                             :class "bottomsheet-mixer-app-num"
                             :style "${mcover.materialcolor.onSecondaryContainer == 'null' ? '' : 'color: ${mcover.materialcolor.onSecondaryContainer};'}"
-                            ; :style "color: ${mcover.materialcolor.onSecondaryContainer == 'null' || mcover.materialcolor.onSecondaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.onSecondaryContainer};"
                             :text "#${ser[0]}"
                           )
                           (box
@@ -224,11 +208,9 @@
                               :width 37 :height 37
                               :class "bottomsheet-mixer-app-circle"
                               :style "color: ${mcover.materialcolor.onSecondaryContainer == 'null' ? coloraccent : mcover.materialcolor.onSecondaryContainer};"
-                              ; :style "color: ${mcover.materialcolor.onSecondaryContainer == 'null' || mcover.materialcolor.onSecondaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.onSecondaryContainer};"
                               (label
                                 :class "bottomsheet-mixer-app-incircle"
                                 :style "color: ${mcover.materialcolor.onSecondaryContainer == 'null' ? coloraccent : mcover.materialcolor.onSecondaryContainer};"
-                                ; :style "color: ${mcover.materialcolor.onSecondaryContainer == 'null' || mcover.materialcolor.onSecondaryContainer == '' ? '#b5c4ff' : mcover.materialcolor.onSecondaryContainer};"
                                 :text "${ser[1]}"
                               )
                             )

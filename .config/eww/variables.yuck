@@ -32,8 +32,6 @@
 (defvar username_default "username")
 (defvar WORKSPACE_SIDE_PAD 15)
 (defvar WIFI_ICONS `["", "", "", "", ""]`) ; Levels 0 1 2 3 4  ; Material icons
-; (defvar VOLUME_ICONS `["", "", "", ""]`) ; Levels 0 1 2 3  ; Material icons
-; (defvar WIFI_ICONS `["|", ".", "*", "~", "^"]`) ; Levels 0 1 2 3 4
 (defvar VOLUME_ICONS `["O", "*", "-", "-"]`) ; Levels 0 1 2 3
 (defvar DYNMODULE_LEFT_PAGES 2)
 (defvar DYNMODULE_RIGHT_PAGES 3)
